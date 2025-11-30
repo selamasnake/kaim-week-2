@@ -1,0 +1,11 @@
+pandas
+numpy
+matplotlib
+seaborn
+jupyter
+spacy
+gensim
+pyLDAvis
+vaderSentiment
+google-play-scraper
+python-dateutil
