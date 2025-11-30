@@ -43,7 +43,8 @@ Make sure a virtual environment is activated then,
     pip install -r requirements.txt
     ```
 3. Run the notebooks
-   Run the notebooks Navigate to the `notebooks` directory, which are divided by `stocks` folder and basic data preparation and eda notebooks. Start with the `data_preparation.ipynb` notebook to load the data and clean it. The `eda.ipynb` notebook analyzes financial headline data. Under Stocks, go to each stocks to visualize its technical indicators. Moreover, the `financial_analysis.ipynb` displays portfolio optimization metrics for the list of stocks using PyNance. Visualizations will be generated at each step to interpret the data. 
+   Run the notebooks Navigate to the `notebooks` directory, `review_preprocessing.ipynb` → scrape reviews, clean them, and save both raw and processed datasets.
+Visual outputs are generated to help inspect the data.
 
 5. Running Python Scripts
     Navigate to the scripts directory,
