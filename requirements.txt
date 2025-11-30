@@ -9,3 +9,5 @@ pyLDAvis
 vaderSentiment
 google-play-scraper
 python-dateutil
+tqdm
+python-dotenv
