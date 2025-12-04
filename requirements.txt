@@ -11,3 +11,11 @@ google-play-scraper
 python-dateutil
 tqdm
 python-dotenv
+wordcloud
+transformers
+torch
+scikit-learn
+regex
+nltk
+textblob
+langdetect

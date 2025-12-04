@@ -1,4 +1,3 @@
-# notebook_preprocessing.py
 import os
 import re
 import pandas as pd
@@ -6,6 +5,10 @@ import numpy as np
 from datetime import datetime
 from config import DATA_PATHS
 from IPython.display import display
+from langdetect import detect, DetectorFactory
+import spacy
+import re
+
 
 class ReviewPreprocessor:
     """Notebook-friendly preprocessor for scraped reviews"""
@@ -183,3 +186,36 @@ class ReviewPreprocessor:
         self.generate_report()
         return self.df
 
+class TextPreprocessor:
+    def __init__(self):
+        self.nlp = spacy.load("en_core_web_sm")
+
+    def is_english(self, text):
+        """Check if the text is English"""
+        try:
+            return detect(text) == "en"
+        except:
+            return False
+
+    def filter_non_english(self, df, text_col="review"):
+        """Remove rows where the review is not in English"""
+        mask = df[text_col].apply(self.is_english)
+        return df[mask].reset_index(drop=True)
+
+    def clean_text(self, text):
+        """Lowercase, remove punctuation, extra spaces"""
+        text = text.lower()
+        text = re.sub(r"[^\w\s]", "", text)
+        text = re.sub(r"\s+", " ", text).strip()
+        return text
+
+    def lemmatize(self, text):
+        """Return lemmatized text without stopwords"""
+        doc = self.nlp(text)
+        tokens = [token.lemma_ for token in doc if not token.is_stop and token.is_alpha]
+        return " ".join(tokens)
+
+    def extract_nouns(self, text):
+        """Return a list of nouns in the text"""
+        doc = self.nlp(text)
+        return [token.text for token in doc if token.pos_ == "NOUN"]

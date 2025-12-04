@@ -121,12 +121,53 @@ class AppDataVisualizer:
         plt.show()
 
 
+class SentimentPlotter:
+    """Plot sentiment analysis results in various formats."""
+
+    def plot_sentiment_counts(self, df, label_col="sentiment_label", title=None):
+        """Plot counts of sentiment labels."""
+        counts = df[label_col].value_counts()
+        sns.barplot(x=counts.index, y=counts.values)
+        plt.title(title or "Sentiment Label Counts")
+        plt.ylabel("Count")
+        plt.show()
+
+    def plot_sentiment_by_bank(self, agg_df, method_name):     
+        banks = agg_df['bank'].unique()
+        n = len(banks)
+        # fig, axes = plt.subplots(n, 1, figsize=(4, 4 * n), sharey=True)
+        fig, axes = plt.subplots(1, n, figsize=(5*n, 4), sharey=True)
+        for i, bank in enumerate(banks):
+            ax = axes[i] if n > 1 else axes
+            subset = agg_df[agg_df['bank'] == bank]
+            sns.lineplot(x='rating', y='sentiment_score', data=subset, marker='o', ax=ax)
+            ax.set_title(f"{method_name} Mean Sentiment by Rating - {bank}")
+            ax.set_ylabel("Mean Sentiment Score")
+            ax.set_xlabel("Rating")
+
+        plt.tight_layout()
+        plt.show()
+
+
+    def plot_comparison(self, dfs, labels, label_col="sentiment_label"):
+        """Compare sentiment distributions across multiple sentiment datasets."""
+        n = len(dfs)
+        fig, axes = plt.subplots(1, n, figsize=(5*n, 4), sharey=True)
+        for i, (df, label) in enumerate(zip(dfs, labels)):
+            counts = df[label_col].value_counts()
+            sns.barplot(x=counts.index, y=counts.values, ax=axes[i])
+            axes[i].set_title(label)
+            axes[i].set_ylabel("Count" if i == 0 else "")
+        plt.tight_layout()
+        plt.show()
+
 # Example usage for notebook or script
 if __name__ == "__main__":
     # Review visualizations
     review_visualizer = ReviewDataVisualizer()
-    review_visualizer.plot_all()
 
     # App metadata visualizations from CSV
     app_visualizer = AppDataVisualizer()
-    app_visualizer.plot_all()
+
+    #Sentiment plots for reviews
+    sentiment_plotter = SentimentPlotter()
