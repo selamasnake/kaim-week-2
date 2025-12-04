@@ -19,3 +19,5 @@ regex
 nltk
 textblob
 langdetect
+sqlalchemy 
+psycopg2-binary
